@@ -4,17 +4,16 @@ import random
 
 class SimpleMarkovGenerator(object):
 
-    def read_files(self, text_source):
+    def read_files(self, text_sources):
         """Given a list of files, make chains from them."""
 
-        # Open the file at the file path provided
-        open_file = open(text_source)
+        text_input = ""
 
-        # Reads the files and returns the file text as one long string
-        body_string = open_file.read()
-
-        # splits the text string on whitespace removing tabs, new lines, etc.
-        word_list = body_string.split()
+        for text_file in text_sources:
+            text_file = open(text_file)
+            text_input += text_file.read()
+        
+        word_list = text_input.split()
 
         return word_list
 
@@ -83,10 +82,22 @@ class SimpleMarkovGenerator(object):
 
 if __name__ == "__main__":
 
-    text_sources = sys.argv[1: ]
-    simple_markov_generator =  SimpleMarkovGenerator()
+    
+    # (1) For each source file run the read function assigning each string file 
+    #     to a unique variable
 
-    self.read_files(text_sources) # we should call the read_files method with the list of filenames
-    # we should call the make_text method 5x
+    text_sources = sys.argv[1:]
+    
 
-    pass
+    test = SimpleMarkovGenerator()
+    
+    running_markov = test.read_files(text_sources)
+    running_markov2= test.make_chains(running_markov)
+    print test.make_text(running_markov2)
+    
+
+    # (2) For each string file run the dictionary creator assigning each dictionary
+    #     to a unique variable.
+    # (3) Find the longest dictionary, make that the master and compare the other two
+    #     adding unique keys with their values and the values from non-unique keys.
+    # (4) Run the make text function on our new GIANT dictionary.
