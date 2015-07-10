@@ -3,6 +3,7 @@ import random
 
 
 class SimpleMarkovGenerator(object):
+    character_limit = 2000
 
     def read_files(self, text_sources):
         """Given a list of files, make chains from them."""
@@ -45,11 +46,7 @@ class SimpleMarkovGenerator(object):
                
         
     def make_text(self, dictionary):
-        """Takes dictionary of markov chains; returns random text."""
-
-        """Takes dictionary of markov chains; returns random text."""
-
-    
+        """Takes dictionary of markov chains; returns random text."""  
 
         # select a random word
         first_key = random.choice(dictionary.keys())
@@ -59,7 +56,7 @@ class SimpleMarkovGenerator(object):
 
 
         # Run as long as key is in the dicitonary    
-        while first_key in dictionary:
+        while first_key in dictionary and len(goofy_sentence) <= self.character_limit:
 
             # go back to dictionary, find values of the key that we returned
             # randomly select word from that list
@@ -76,8 +73,12 @@ class SimpleMarkovGenerator(object):
                 # --> first_key ('you', 'could')
             first_key = (first_key[1],next_word) 
         
-
+        print len(goofy_sentence)    
         return goofy_sentence
+
+
+class TweetableMarkovGenerator(SimpleMarkovGenerator):
+    character_limit = 130
 
 
 if __name__ == "__main__":
@@ -92,8 +93,14 @@ if __name__ == "__main__":
     test = SimpleMarkovGenerator()
     
     running_markov = test.read_files(text_sources)
-    running_markov2= test.make_chains(running_markov)
-    print test.make_text(running_markov2)
+    running_markov2 = test.make_chains(running_markov)
+    
+    twitterbot = TweetableMarkovGenerator()
+    running_twitterbot = twitterbot.read_files(text_sources)
+    running_twitterbot2 = twitterbot.make_chains(running_twitterbot)
+
+
+    print twitterbot.make_text(running_twitterbot2)
     
 
     # (2) For each string file run the dictionary creator assigning each dictionary
